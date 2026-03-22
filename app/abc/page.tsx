@@ -1,7 +1,7 @@
-const page = () => {
+const ABPage = () => {
   return (
-    <div>page</div>
+    <div>main page</div>
   )
 }
 
-export default page
+export default ABPage
