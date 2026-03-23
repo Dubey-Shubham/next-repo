@@ -4,3 +4,12 @@
 - ( pnpm -v ) to check version
 - ( pnpm create next-app@latest ) to initializw repo
 - ( pnpm run dev ) to start server
+
+## pnpm path might cause issue even after installation
+
+- npm root -g
+- npm list -g --depth=0      (to find whether installation happened properly or not)       
+- npm config get prefix      (it will give global path without space)
+- add it to system variable or enviroment variables (win + s -> patgh -> edit -> add -> ok)
+- now cloase everything and restart 
+
