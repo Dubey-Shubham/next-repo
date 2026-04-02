@@ -31,10 +31,10 @@ export default function SignUpPage() {
     };
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Sign-Up</CardTitle>
-                <CardDescription>
+        <Card className="px-2">
+            <CardHeader className="pb-2">
+                <CardTitle className="text-2xl">Sign-Up</CardTitle>
+                <CardDescription >
                     Create an account to get started
                 </CardDescription>
             </CardHeader>
@@ -42,14 +42,15 @@ export default function SignUpPage() {
             <CardContent>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex flex-col gap-4"
                 >
                     <Controller
                         control={form.control}
                         name="name"
                         render={({ field, fieldState }) => (
                             <Field>
-                                <FieldLabel>Name</FieldLabel>
-                                <Input placeholder="Enter your name" {...field} />
+                                <FieldLabel className="text-lg">Name</FieldLabel>
+                                <Input aria-invalid={fieldState.invalid} placeholder="Enter your name" {...field} />
                                 {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
                                 )}
@@ -62,8 +63,8 @@ export default function SignUpPage() {
                         name="email"
                         render={({ field, fieldState }) => (
                             <Field>
-                                <FieldLabel>Email</FieldLabel>
-                                <Input placeholder="Enter your Email" type="email" {...field} />
+                                <FieldLabel className="text-lg">Email</FieldLabel>
+                                <Input aria-invalid={fieldState.invalid} placeholder="Enter your Email" type="email" {...field} />
                                 {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
                                 )}
@@ -76,8 +77,8 @@ export default function SignUpPage() {
                         name="password"
                         render={({ field, fieldState }) => (
                             <Field>
-                                <FieldLabel>Email</FieldLabel>
-                                <Input placeholder="Enter your Password" type="password" {...field} />
+                                <FieldLabel className="text-lg">Email</FieldLabel>
+                                <Input aria-invalid={fieldState.invalid} placeholder="Enter your Password" type="password" {...field} />
                                 {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
                                 )}
@@ -85,7 +86,7 @@ export default function SignUpPage() {
                         )}
                     />
 
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className="w-full text-lg py-5">
                         Sign Up
                     </Button>
                 </form>
