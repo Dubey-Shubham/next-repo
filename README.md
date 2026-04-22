@@ -13,21 +13,21 @@
 - add it to system variable or enviroment variables (win + s -> patgh -> edit -> add -> ok)
 - now cloase everything and restart
 
-# exporing file based routed with nested routs dynamic route etc
+# Exporing file based routed with nested routs dynamic route etc
 
 - made dummy abc, blog folder to explore that
 
-# setting up shadcn 
+# Setting up shadcn 
 
 - pnpm dlx shadcn@latest init -t next
 - select radix, preset Nova
 - install whatever component u want (like pnpm dlx shadcn@latest add button)
 
-# creating component folder 
+# Creating component folder 
 
 - here we have 2 nested folder ui for shadcn component and web for custom component
 
-# setting up theme (dark/light mode)
+# Setting up theme (dark/light mode)
 
 - install theme (pnpm add next-themes)
 - install dropdown (pnpm dlx shadcn@latest add dropdown-menu)
@@ -35,7 +35,7 @@
 - create theme-toggle file in web -> paste code -> then rename component to ThemeToggle
 - add <Theme-toggle/> in navbar and wrap main layout file children with <ThemeProvider/> that copied
 
-# creating signUP
+# Creating signUP
 
 - create auth/sign-up/page.tsx
 - install shadcn components like card, input, field
@@ -43,7 +43,7 @@
 - Creating an Sign Up page using Shadcn component which we installed
 - put "use client" above the sign in component as this is client component not server component
 
-# removing navbar from signup page (Route Group)
+# Removing navbar from signup page (Route Group)
 
 * Route Groups are a folder convention that let you organize routes by category or team.
 * A route group can be created by wrapping a folder's name in parenthesis: (folderName).
@@ -60,19 +60,20 @@
 - Convex provides a database, a place to write your server functions, and client libraries. It makes it easy to build and scale dynamic live-updating apps.
 
 ## Steps
+- 0 Go to Documentation of Convex
 - 1 (pnpm install convex) to install the convex in project
 - 2 (pnpm dlx convex dev) To initiate a convex project where we will write our backend apis.
 - Answer question
-* sign in and create project
-* provide device name
-* open convex site login using github/google and confirm code (i used google)
-* agree terms and condition
-* project name
-* dev should run on europe server
-* setup AI files agents claude.md
+-sign in and create project
+-provide device name
+-open convex site login using github/google and confirm code (i used github)
+-agree terms and condition
+-project name
+-dev should run on europe server
+-etup AI files agents claude.md
 
 - 3 create file name sampleData.jsonl and copy paste content from docs
-- 4 run (pnpm dlx convex import --table tasks sampleData.jsonl) inport data from sampledata file to tables into convex
+- 4 run (pnpm dlx convex import --table tasks sampleData.jsonl) import data from sampledata file to tables into convex
 - 5 create file name tasks.ts in convex folder 
 Exporting a query function from this file declares an API function named after the file and the export name: api.tasks.get
 - 6 create file name ConvexClientProvider.tsx inside component/web folder 
@@ -82,6 +83,49 @@ Exporting a query function from this file declares an API function named after t
 
 * now both dev and next server will run simultaneously and by going on test route can see data
 we can also go to convext dashboard to see check the data we uploaded, health of server etc
+
+## Better Auth Integration with Convex
+-Better Auth is a framework-agnostic, universal authentication and authorization framework for TypeScript.
+- 0 Go to better-auth site  => Integration => Convex
+- 1 pnpm add better-auth @convex-dev/better-auth
+- 2 pnpm dlx convex env set BETTER_AUTH_SECRET=$(openssl rand -base64 32)
+- 3 pnpm dlx convex env set SITE_URL http://localhost:3000
+- 4 copy env in env.local and copy, paste NEXT_PUBLIC_CONVEX_URL in NEXT_PUBLIC_CONVEX_SITE_URL
+- 5 in convex folder create auth.config.ts and paste code from step 4 in documentation
+- 6 in convex folder create another betterauth folder and create convex.config.ts and copy paste code in it
+- 7 in convex folder create convex.config.ts and copy paste code in it
+- 8 create auth.ts in convex/betterauth and paste code 
+
+- 9 Now run (pnpm dlx auth generate --config ./convex/betterAuth/auth.ts --output ./convex/betterAuth/schema.ts) which will fail in most cases so follow below instructions
+-comment schema 
+-replace this part
+export const authComponent = createClient<DataModel, any>(
+  components.betterAuth,
+  {
+    local: { schema: undefined as any },
+    verbose: false,
+  },
+);
+-then install (pnpm dlx auth generate --config ./convex/betterAuth/auth.ts --output ./convex/betterAuth/schema.ts)
+-replace schema and undo replaced section in auth.ts
+
+-If process.env gives warning run (pnpm add -D @types/node)
+"types": ["node"] paste this in tsconfig.json 
+
+-use chat gpt if any other warning comes
+
+- 10 create adapter.ts in betterAuth folder and paste the code
+- 11 create auth-client.ts & auth-server.ts in lib folder and copy paste code
+- 12 create http.ts in convex folder also create api/auth/[...all]/route.ts in app and copy paste code
+- 13 replace code in component/web/ConvexClientProvider with provided code
+- 13 wrap children in app/layout.tsx which is already done so no need
+
+DONE
+
+
+
+
+
 
 
 
