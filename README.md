@@ -122,6 +122,14 @@ export const authComponent = createClient<DataModel, any>(
 
 DONE
 
+## Better-Auth Error Ocuured
+
+- well new better-auth and convex version were released and due to which the sign up function started throwing 500 error
+- to fix we tried many things finally found a solution to downgrade better-auth to a compatable previous version
+- (pnpm add better-auth@1.5.x)  (pnpm exec convex dev) run these two and check again
+
+
+
 
 
 

@@ -15,6 +15,8 @@ import {
     CardDescription,
 } from "@/components/ui/card";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import z from "zod";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
     const form = useForm({
@@ -26,8 +28,13 @@ export default function SignUpPage() {
         },
     });
 
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
         console.log("Form Data:", data);
+        await authClient.signUp.email({
+            email: data.email,
+            name: data.name,
+            password: data.password
+        })
     };
 
     return (
@@ -77,7 +84,7 @@ export default function SignUpPage() {
                         name="password"
                         render={({ field, fieldState }) => (
                             <Field>
-                                <FieldLabel className="text-lg">Email</FieldLabel>
+                                <FieldLabel className="text-lg">Password</FieldLabel>
                                 <Input aria-invalid={fieldState.invalid} placeholder="Enter your Password" type="password" {...field} />
                                 {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />

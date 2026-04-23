@@ -19,10 +19,11 @@ export const authComponent = createClient<DataModel, typeof schema>(
 
 // Better Auth Options
 export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
+  console.log("SECRET:", process.env.BETTER_AUTH_SECRET);
   return {
     appName: "My App",
     baseURL: process.env.SITE_URL,
-    secret: process.env.BETTER_AUTH_SECRET,
+    secret: process.env.BETTER_AUTH_SECRET!,
     database: authComponent.adapter(ctx),
     emailAndPassword: {
       enabled: true,
