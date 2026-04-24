@@ -128,6 +128,11 @@ DONE
 - to fix we tried many things finally found a solution to downgrade better-auth to a compatable previous version
 - (pnpm add better-auth@1.5.x)  (pnpm exec convex dev) run these two and check again
 
+# Creating Login page
+
+- create login folder in auth and create page.tsx
+- copy the sign and for better just change signUp to signIn
+- install sonnet to show toast and integrate it
 
 
 
