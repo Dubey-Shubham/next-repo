@@ -17,8 +17,15 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import z from "zod";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { Loader2 } from "lucide-react";
 
 export default function SignUpPage() {
+    const [isPending, startTransition] = useTransition()
+    const router = useRouter()
+
     const form = useForm({
         resolver: zodResolver(signUpSchema),
         defaultValues: {
@@ -29,11 +36,22 @@ export default function SignUpPage() {
     });
 
     const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-        console.log("Form Data:", data);
-        await authClient.signUp.email({
-            email: data.email,
-            name: data.name,
-            password: data.password
+
+        startTransition(async () => {
+            await authClient.signUp.email({
+                email: data.email,
+                name: data.name,
+                password: data.password,
+                fetchOptions: {
+                    onSuccess: () => {
+                        toast.success("Account Created successfully")
+                        router.push("/auth/login")
+                    },
+                    onError: (error) => {
+                        toast.success(error.error.message)
+                    }
+                }
+            })
         })
     };
 
@@ -93,8 +111,17 @@ export default function SignUpPage() {
                         )}
                     />
 
-                    <Button type="submit" className="w-full text-lg py-5">
-                        Sign Up
+                    <Button type="submit" disabled={isPending} className="w-full text-lg py-5">
+                        {isPending ? (
+                            <>
+                                <Loader2 className="size-4 animate-spin" />
+                                <span>
+                                    Signing Up...
+                                </span>
+                            </>
+                        ) : (
+                            <span>Sign Up</span>
+                        )}
                     </Button>
                 </form>
             </CardContent>

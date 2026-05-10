@@ -133,6 +133,13 @@ DONE
 - create login folder in auth and create page.tsx
 - copy the sign and for better just change signUp to signIn
 - install sonnet to show toast and integrate it
+- shoe toast on clicking logout
+- useRouter to route user to diffrent page
+- loading in sign up login button
+
+# Createing Create Blog page
+
+- creating create folder with page.tsx inside shared-schema and creating the page
 
 
 
