@@ -22,8 +22,20 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { useMutation } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import z from "zod"
+import { useTransition } from "react"
+import { Loader2 } from "lucide-react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import createBlogAction from "@/app/actions"
 
 export default function CreateRoute() {
+  const [isPending, startTransition] = useTransition()
+  const router = useRouter()
+
+  const mutation = useMutation(api.posts.createPost)
   const form = useForm({
     resolver: zodResolver(postSchema),
     defaultValues: {
@@ -32,14 +44,23 @@ export default function CreateRoute() {
     },
   })
 
-  const onSubmit = (values: any) => {
-    console.log(values)
+  const onSubmit = (values: z.infer<typeof postSchema>) => {
+    startTransition(async () => {
+      mutation({
+        body: values.content,
+        title: values.title
+      })
+
+      // await createBlogAction()     // server action
+      toast.success("Blog created Successfully")
+      router.push("/")
+    })
   }
 
   return (
     <div className="min-h-screen bg-muted/40 py-10 px-4">
       <div className="mx-auto max-w-3xl space-y-6">
-        
+
         {/* Heading */}
         <div className="space-y-2">
           <h1 className="text-4xl font-bold tracking-tight">
@@ -69,7 +90,7 @@ export default function CreateRoute() {
               className="space-y-6"
             >
               <FieldGroup className="space-y-6">
-                
+
                 {/* Title Field */}
                 <Controller
                   control={form.control}
@@ -108,7 +129,7 @@ export default function CreateRoute() {
                         {...field}
                         placeholder="Write your article content here..."
                         aria-invalid={fieldState.invalid}
-                        className="min-h-[220px] resize-none"
+                        className="min-h-55 resize-none"
                       />
 
                       {fieldState.invalid && (
@@ -119,11 +140,17 @@ export default function CreateRoute() {
                 />
 
                 {/* Submit Button */}
-                <Button
-                  type="submit"
-                  className="w-full h-11 text-base"
-                >
-                  Publish Article
+                <Button type="submit" disabled={isPending} className="w-full text-lg py-5">
+                  {isPending ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" />
+                      <span>
+                        Publishing...
+                      </span>
+                    </>
+                  ) : (
+                    <span>Publish Article</span>
+                  )}
                 </Button>
               </FieldGroup>
             </form>

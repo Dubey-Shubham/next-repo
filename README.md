@@ -140,6 +140,21 @@ DONE
 # Createing Create Blog page
 
 - creating create folder with page.tsx inside shared-schema and creating the page
+- Create Schema for tables of our data in Convex (Although it is not required but still it will give type safety)
+- create schema.ts in convex folder and write the schema
+- create a mutation to save the changes, for that create posts.ts in convex and write logic
+- using the mutation function to save data and testing it
+
+# Server Actions
+
+- these are methods which we can create to perform mutations in out server
+- create action.ts in app and write logic also write "use server" at top of the file
+- server actions are run on servers so even if someone consoles something in such file it will not show in console
+- a mock server action has been created in actions.ts in app and called in  shared-layout => create => page.tsx
+
+# Route Handlers
+
+- a mock route handler has been created in actions.ts in app and called in  shared-layout => create => page.tsx
 
 
 
