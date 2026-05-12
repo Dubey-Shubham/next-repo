@@ -155,7 +155,23 @@ DONE
 # Route Handlers
 
 - a mock route handler has been created in actions.ts in app and called in  shared-layout => create => page.tsx
+- they do not show arning when doing a type error or any other error error unlike server actions
 
+# Diffrence B/w server action action and route handler
+
+- server actions are secured and route handler are accessible in other applications
+- server actions-
+*handling forms
+*updating DB from UI
+*internal app logic
+*you don't need a public API
+
+- route handler
+*creating APIs
+*handling webhooks
+*external services need access
+*mobile apps consume backend
+*custom HTTP logic needed
 
 
 

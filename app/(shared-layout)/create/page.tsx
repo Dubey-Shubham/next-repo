@@ -46,14 +46,18 @@ export default function CreateRoute() {
 
   const onSubmit = (values: z.infer<typeof postSchema>) => {
     startTransition(async () => {
-      mutation({
-        body: values.content,
-        title: values.title
-      })
+      // mutation({                    // convex mutation
+      //   body: values.content,
+      //   title: values.title
+      // })
 
-      // await createBlogAction()     // server action
+      await createBlogAction(values)     // server action
+
+      // await fetch("/api/create-blog", {      // route handler
+      //   method: "POST"
+      // })
       toast.success("Blog created Successfully")
-      router.push("/")
+      // router.push("/")
     })
   }
 
