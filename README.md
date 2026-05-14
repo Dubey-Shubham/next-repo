@@ -154,7 +154,7 @@ DONE
 
 # Route Handlers
 
-- a mock route handler has been created in actions.ts in app and called in  shared-layout => create => page.tsx
+- a mock route handler has been created in route.ts in create-blog in app and called in  shared-layout => create => page.tsx
 - they do not show arning when doing a type error or any other error error unlike server actions
 
 # Diffrence B/w server action action and route handler

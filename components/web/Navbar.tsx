@@ -22,7 +22,7 @@ export function Navbar() {
 
         <div className="hidden md:flex gap-6 text-sm font-medium">
           <Link className={buttonVariants({ variant: "ghost" })} href="/auth/sign-up">Home</Link>
-          <Link className={buttonVariants({ variant: "ghost" })} href="/about">About</Link>
+          <Link className={buttonVariants({ variant: "ghost" })} href="/blog">Blog</Link>
           <Link className={buttonVariants({ variant: "ghost" })} href="/create">Create</Link>
           <Link className={buttonVariants({ variant: "ghost" })} href="/contact">Contact</Link>
         </div>
