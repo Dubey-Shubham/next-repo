@@ -173,6 +173,13 @@ DONE
 *mobile apps consume backend
 *custom HTTP logic needed
 
+# creating Blog page
+
+- in shared layout create log folder inside create page.tsx
+- build a page inside
+- inside convex -> posts create a query to fetch the blog data from convex table
+- in next.config.ts Add images object -> remotePatterns Array -> add protocol and hostname of url
+
 
 
 
