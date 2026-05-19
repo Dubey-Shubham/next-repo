@@ -179,6 +179,37 @@ DONE
 - build a page inside
 - inside convex -> posts create a query to fetch the blog data from convex table
 - in next.config.ts Add images object -> remotePatterns Array -> add protocol and hostname of url
+- Fetching data from convex server showing it in cards
+
+## Server sside data fetching and client side and their pro cons
+- server side
+(PRO)
+1 faster page load
+2 no loading as no hydration needed
+3 seo benifit
+
+(CONS)
+- no reactivity
+- if server slow nothing gets render till data is fetched in server   (Streaming is Solution though)
+
+- client side
+(PRO)
+1 reactivity
+2 even if data fetching takes time other static parts gets painted
+
+(CONS)
+takes time to fetch data after refresh
+no seo benifit
+
+## Streaming
+Streaming is a data transfer technique that allows you to break down a route into smaller "chunks" and progressively stream them from the server to the client as they become ready.
+By streaming, you can prevent slow data requests from blocking your whole page. This allows the user to see and interact with parts of the page without waiting for all the data to load before any UI can be shown to the user.
+
+## Implementing Streaming
+
+1 create loading.tsx in blog in shared-layout and write a loading h1 which we will show while data gets load
+2 behind the scene it uses suspense component of react
+3 but this streaming has an limitation, it suspends entire page or component till data gets fetched even the static headings and all
 
 
 
