@@ -8,20 +8,57 @@ import { redirect } from "next/navigation"
 import { getToken } from "@/lib/auth-server"
 
 export default async function createBlogAction(values: z.infer<typeof postSchema>) {
-    const parsed = postSchema.safeParse(values)      // validating data acc to schema
 
-    if (!parsed.success) {
-        throw new Error("something went wrong")
+    try {
+        const parsed = postSchema.safeParse(values)      // validating data acc to schema
+
+        if (!parsed.success) {
+            throw new Error("something went wrong")
+        }
+
+        const token = await getToken()                 //getting token so we convex can authenticate this req
+
+
+        const imageUrl = await fetchMutation(
+            api.posts.generateImageUploadUrl,
+            {},
+            { token }
+        )
+
+        const uploadResult = await fetch(imageUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": parsed.data.image.type
+            },
+            body: parsed.data.image
+        })
+
+        if (!uploadResult.ok) {
+            return {
+                error: "Failed to upload image"
+            }
+        }
+
+        const { storageId } = await uploadResult.json()
+
+        await fetchMutation(api.posts.createPost, {    // using convex method to pass data  along with token to wuthenticate session
+            body: parsed.data.content,
+            title: parsed.data.title,
+            imageStorageId: storageId
+        },
+            { token }
+        )
+    } catch (error) {
+        console.error("CREATE BLOG ERROR:", error)
+
+        return {
+            error:
+                error instanceof Error
+                    ? error.message
+                    : "Failed to create post"
+        }
     }
 
-    const token = await getToken()                 //getting token so we convex can authenticate this req
-
-    await fetchMutation(api.posts.createPost, {    // using convex method to pass data  along with token to wuthenticate session
-        body: parsed.data.content,
-        title: parsed.data.title
-    },
-        { token }
-    )
 
     return redirect("/")                           // this is used to redirect user on servers
 }

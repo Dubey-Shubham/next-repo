@@ -2,15 +2,16 @@
 
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/convex/_generated/api"
 import { fetchQuery } from "convex/nextjs"
 import { useQuery } from "convex/react"
 import Image from "next/image"
 import Link from "next/link"
+import { Suspense } from "react"
 
-export default async function BlogPage() {
+export default function BlogPage() {
     // const data = useQuery(api.posts.getPosts)             // this fetches data in client side
-    const data = await fetchQuery(api.posts.getPosts)        // this fetches data in server side thus page is already loaded with data
 
     // but serverside data fetch can kill reactivity if data changes in DB the data on our portal wont update automatically
 
@@ -26,6 +27,22 @@ export default async function BlogPage() {
                 </p>
             </div>
 
+            <Suspense fallback={
+                <SkeletonLoading />
+            }>
+                <LoadBlogList />
+            </Suspense>
+
+        </div>
+    )
+}
+
+async function LoadBlogList() {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+    const data = await fetchQuery(api.posts.getPosts)          // this fetches data in server side thus page is already loaded with data
+
+    return (
+        <div>
             <div className="mx-auto grid max-w-7xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {data?.map((post) => (
                     <Card
@@ -41,7 +58,7 @@ export default async function BlogPage() {
                                 className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                             />
 
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                            <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent" />
                         </div>
 
                         <CardContent className="space-y-4 p-6">
@@ -70,6 +87,35 @@ export default async function BlogPage() {
                     </Card>
                 ))}
             </div>
+        </div>
+    )
+}
+
+function SkeletonLoading() {
+    return (
+        <div className="mx-auto grid max-w-7xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {[...Array(6)].map((_, i) => (
+                <Card
+                    key={i}
+                    className="overflow-hidden border-border/50 bg-card/50 backdrop-blur"
+                >
+                    <Skeleton className="h-56 w-full" />
+
+                    <CardContent className="space-y-4 p-6">
+                        <Skeleton className="h-8 w-3/4" />
+
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-2/3" />
+                        </div>
+                    </CardContent>
+
+                    <CardFooter className="px-6 pb-6 pt-0">
+                        <Skeleton className="h-10 w-full rounded-xl" />
+                    </CardFooter>
+                </Card>
+            ))}
         </div>
     )
 }

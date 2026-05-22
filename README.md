@@ -210,6 +210,15 @@ By streaming, you can prevent slow data requests from blocking your whole page. 
 1 create loading.tsx in blog in shared-layout and write a loading h1 which we will show while data gets load
 2 behind the scene it uses suspense component of react
 3 but this streaming has an limitation, it suspends entire page or component till data gets fetched even the static headings and all
+4 using Suspense we have showed a fallback shimmer while card gets rendered, also other static part are already rendered thus we have implemented streaming
+
+## Adding Akeleton Shimmer UI
+
+- Adding Shimmer UI using Skeleton comp from shadcn in blog page.tsx
+
+## Adding image in blog with upload
+
+- made changes in following files
 
 
 

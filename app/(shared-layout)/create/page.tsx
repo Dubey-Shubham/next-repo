@@ -41,6 +41,7 @@ export default function CreateRoute() {
     defaultValues: {
       title: "",
       content: "",
+      image: undefined,
     },
   })
 
@@ -134,6 +135,33 @@ export default function CreateRoute() {
                         placeholder="Write your article content here..."
                         aria-invalid={fieldState.invalid}
                         className="min-h-55 resize-none"
+                      />
+
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+
+                <Controller
+                  control={form.control}
+                  name="image"
+                  render={({ field, fieldState }) => (
+                    <Field>
+                      <FieldLabel className="text-base">
+                        Image
+                      </FieldLabel>
+
+                      <Input
+                        placeholder="Enter blog title"
+                        aria-invalid={fieldState.invalid}
+                        type="file"
+                        accept="image/*"
+                        onChange={(event) => {
+                          const file = event?.target?.files?.[0]
+                          field.onChange(file)
+                        }}
                       />
 
                       {fieldState.invalid && (
