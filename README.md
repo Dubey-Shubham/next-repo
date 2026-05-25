@@ -216,10 +216,16 @@ By streaming, you can prevent slow data requests from blocking your whole page. 
 
 - Adding Shimmer UI using Skeleton comp from shadcn in blog page.tsx
 
-## Adding image in blog with upload
+## Adding image in blog with upload and then show in blogs
 
-- made changes in following files
+- made changes in following files- schema.ts, posts.ts in convex folder | actions.ts, schemas/blog/ts, shared-schema/create/page.tsx in app
+- write endpoint types and add image input in create form and complete all
+- in getposts query fetch the image and insert it in the posts object
+- then show it in the posts page also but the hostname in next config file (eg our is spotted-seal-342.eu-west-1.convex.cloud)
 
+# NextJs Caching 
+
+- 
 
 
 

@@ -30,7 +30,18 @@ export const getPosts = query({        //to fetch data
   args: {},
   handler: async (ctx) => {
     const posts = await ctx.db.query("posts").order("desc").collect()     // context database query from posts table in descending order 
-    return posts
+
+    return await Promise.all(
+      posts.map(async (post) => {
+        const resolvedImageUrl =
+          post.imageStorageId !== undefined ? await ctx.storage.getUrl(post.imageStorageId) : null;
+
+        return {
+          ...post,
+          imageUrl: resolvedImageUrl
+        }
+      })
+    )
   }
 })
 
