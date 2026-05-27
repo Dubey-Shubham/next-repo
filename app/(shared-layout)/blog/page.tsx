@@ -10,6 +10,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { Suspense } from "react"
 
+export const dynamic = "force-static"
+// "auto" | "force-dynamic" | "error" | "force-static"
+
 export default function BlogPage() {
     // const data = useQuery(api.posts.getPosts)             // this fetches data in client side
 

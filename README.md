@@ -225,9 +225,54 @@ By streaming, you can prevent slow data requests from blocking your whole page. 
 
 # NextJs Caching 
 
-- 
+- Caching is a technique for storing the result of data fetching and other computations so that future requests for the same data can be served faster, without doing the work again.
+- when we run pnpm run build, next builds route and it assign which route will render static and which dynamic
+eg Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /abc
+├ ○ /abc/hello
+├ ƒ /api/auth/[...all]
+├ ƒ /api/create-blog
+├ ○ /auth/login
+├ ○ /auth/sign-up
+├ ƒ /blog
+├ ○ /blogg
+├ ƒ /blogg/[blogId]
+└ ○ /create
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+- those fetches no data from db/api, same everytime become static o, those who do fetch data becomes  f dynamic
+- but we can make dynamic route static
+
+## Static Rendering
+- The page is generated ahead of time and cached.
+- good for blogpost, documentation, public product listing
+- static pages are build and rendered via CDN for fast rendering and their data do not update
+- every single user sees same data until it is revalidated or rebuilt
+
+## Dynamic Rendering
+- The page is rendered on every request.
+- good for user dashboard, shopping carts, personalized content
+- rendered via server no CDN 
+- every request builds page and renders thus it is also slow
 
 
+## making dynamic blog page static
+
+- above the component put 
+
+export const dynamic = "force-static"
+// "auto" | "force-dynamic" | "error" | "force-static"
+
+   export default function BlogPage() { return(<></>)}
+
+- then pnpm run build it followed by pnpm run start
+- this will make this page static
+- "force-static" forces the page to be statically generated and cached, even if Next.js might otherwise choose dynamic rendering.
+- "force-dynamic" Always render on every request.
 
 
 
