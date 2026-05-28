@@ -12,6 +12,8 @@ import { Suspense } from "react"
 
 export const dynamic = "force-static"
 // "auto" | "force-dynamic" | "error" | "force-static"
+export const revalidate = 120
+// false | 0 | number
 
 export default function BlogPage() {
     // const data = useQuery(api.posts.getPosts)             // this fetches data in client side

@@ -244,8 +244,8 @@ eg Route (app)
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 
-- those fetches no data from db/api, same everytime become static o, those who do fetch data becomes  f dynamic
-- but we can make dynamic route static
+- those route who fetches no data from db/api become static (o), those who do fetch data becomes  (f) dynamic
+- but we can also make dynamic route static
 
 ## Static Rendering
 - The page is generated ahead of time and cached.
@@ -274,6 +274,18 @@ export const dynamic = "force-static"
 - "force-static" forces the page to be statically generated and cached, even if Next.js might otherwise choose dynamic rendering.
 - "force-dynamic" Always render on every request.
 
+## Revalidation
+
+### Time Based Revalidation
+
+- Revalidated after fixed time interval
+- When latest data is not priority
+=>put export const revalidate = false under  force static statement
+- other options are false | 0 | number
+- flase means always cache no revalidate, 20 means revalidate after 20sec,put revalidatePath("/blog") in any action after which u want to revalidate certain path
+- after revalidation do build the app
+- and it will work
+- This is also called (ISR) Incremental Static Regeneration
 
 
 
