@@ -287,6 +287,16 @@ export const dynamic = "force-static"
 - and it will work
 - This is also called (ISR) Incremental Static Regeneration
 
+# Creating Id base new page for blogs
+
+- worked in [blogId]/page.tsx, posts in convex
+- created and api and fetched data from it based on postId
+
+# Created Comment Section
+
+- create comment.ts in convex to write data fetch query and mutation for comment add
+- 
+
 
 
 
