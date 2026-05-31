@@ -1,3 +1,4 @@
+import { CommentSection } from "@/components/web/CommentSection";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { fetchQuery } from "convex/nextjs";
@@ -45,6 +46,7 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
                         Posted on: {new Date(post._creationTime).toLocaleDateString("en-US")}
                     </p>
                 </div>
+                <CommentSection/>
             </div>
         </div>
     )
