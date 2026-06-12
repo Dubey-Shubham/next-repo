@@ -295,7 +295,9 @@ export const dynamic = "force-static"
 # Created Comment Section
 
 - create comment.ts in convex to write data fetch query and mutation for comment add
-- 
+- useParams can be used to get parameter in both server and client component
+- create commentSection.tsx component 
+- integrating it with server actions to add and get comment 
 
 
 
