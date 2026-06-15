@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/convex/_generated/api"
 import { fetchQuery } from "convex/nextjs"
 import { useQuery } from "convex/react"
+import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { Suspense } from "react"
@@ -14,6 +15,13 @@ export const dynamic = "force-static"
 // "auto" | "force-dynamic" | "error" | "force-static"
 export const revalidate = 120
 // false | 0 | number
+
+export const metadata: Metadata = {
+  title: 'Blog | Next.js 16 Tutorial',
+  description: 'Read our Crisp Articles',
+  category: "Next learning",
+  authors: [{name: "Shubham Dubey"}]
+}
 
 export default function BlogPage() {
     // const data = useQuery(api.posts.getPosts)             // this fetches data in client side

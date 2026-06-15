@@ -299,6 +299,63 @@ export const dynamic = "force-static"
 - create commentSection.tsx component 
 - integrating it with server actions to add and get comment 
 
+# MetaData 
 
+- Metadata API in next can be used to define application metadata for improved SEO and web shareability
+- These APIs include 
+-static metadata object, 
+-dynamic generateMetadata function, 
+-Special file conventions
 
+- with all the option Next will automatically generate relevant <head> tags for our page which can be inspected in browser dev tools
+- search engine has crawlers which crawl our pages and read meta tags, thus rank our site eg:- charset utf-8, viewport metadata
+
+## Static Metadata
+
+- export a metadata obj from a static layout.js or page.js file 
+- eg to add title/description to blog route
+- add below function above the function component like i did it in blog => page.tsx
+
+export const metadata: Metadata = {
+  title: 'Blog | Next.js 16 Tutorial',
+  description: 'Read our Crisp Articles',
+}
+
+## Generated Metadata(dynamic metadata)
+
+- You can use generateMetadata function to fetch metadata that depends on data
+- example, to fetch the title and description for a specific blog post:
+- add below function above the function component like i did it in blog=> [postID]=> page.tsx
+
+export async function generateMetadata({ params }: PostIdRouteProps): Promise<Metadata> {
+    const { postId } = await params
+
+    const post = await fetchQuery(api.posts.getPostById, {
+        postId: postId
+    })
+
+    if(!post){
+        return {
+            title:"Post not found"
+        }
+    } 
+
+    return {
+        title: post.title,
+        description: post.body,
+    }
+}
+
+## we have many more metadata function to set images favicon etx
+- check then on next official site
+
+# presence
+
+- it is a functionality where we show a live-updating list of users in a "room" including their status for when they were last online.
+- convex provides a UI component for it 
+- Part of course not exclusive to next course
+
+- install from convex site
+- copy middleware in convex.config
+- create presence.ts in convex folder and copy paste code
 
