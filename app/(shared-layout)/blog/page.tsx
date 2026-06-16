@@ -13,7 +13,7 @@ import { Suspense } from "react"
 
 export const dynamic = "force-static"
 // "auto" | "force-dynamic" | "error" | "force-static"
-export const revalidate = 120
+export const revalidate = 30
 // false | 0 | number
 
 export const metadata: Metadata = {

@@ -2,11 +2,13 @@ import { CommentSection } from "@/components/web/CommentSection";
 import { PostPresence } from "@/components/web/PostPresence";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { getToken } from "@/lib/auth-server";
 import { fetchQuery, preloadQuery } from "convex/nextjs";
 import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 interface PostIdRouteProps {
     params: Promise<{
@@ -35,6 +37,7 @@ export async function generateMetadata({ params }: PostIdRouteProps): Promise<Me
 
 export default async function PostIdRoute({ params }: PostIdRouteProps) {
     const { postId } = await params
+    const token = await getToken()
 
     const [post, preloadedComments, userId] = await Promise.all([                // so fire both api in parallel instead of in series
         await fetchQuery(api.posts.getPostById, {
@@ -43,8 +46,12 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
         await preloadQuery(api.comments.getCommentByPostId, {
             postId: postId
         }),
-        await fetchQuery(api.presence.getuserId)
+        await fetchQuery(api.presence.getuserId, {}, {token})
     ])
+
+    if(!userId){
+        return redirect("/auth/login")
+    }
 
     if (!post) {
         return (

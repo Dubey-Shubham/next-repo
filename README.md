@@ -358,4 +358,40 @@ export async function generateMetadata({ params }: PostIdRouteProps): Promise<Me
 - install from convex site
 - copy middleware in convex.config
 - create presence.ts in convex folder and copy paste code
+- then create postpresence component and create component which eventually will be rendered
+- call it in the blog=> postID=> page.tsx
 
+# show routes based on whether user logged in or not
+
+- in Next showing routes based on user details is not a good practice specially for static component 
+- data gets rendered in client but static are build in server
+- thus use PROXY(Middleware) in Next for this usecase
+- browser call server, proxy will intercept and check user id and only let it pass if userid is present
+- Proxy allows you to run code before a request is completed. Then, based on the incoming request, you can modify the response by rewriting, redirecting, modifying the request or response headers, or responding directly.
+
+## how to use proxy
+
+- create proxy.ts file
+- inside write the code as did in this project
+- proxy will only redirect pages that are included in its config like-
+
+export const config = {
+    matcher: ["/blog", "/create"],                                 
+}
+- so dynamic route cannot be included 
+- thus one should include redirects in dynamic pages also to make this entire work
+- aka multi layer authorization
+
+# showing Shimmer while data is loading in a dynamic comp
+
+= either use suspense fallback component to show shimmer
+- created loading.tsx and create a skeleton in it and automatically it will show while loading
+- ex page.tsx and loading.tsx in postId
+
+# Cache Components
+
+- It lets you mix static, cached and dynnamic content in a single route, providing speed of static site with flexibility of dynamic rendering
+- server rendered apps typically force choice bw static and dynamic pages, one beign fast but stale while other fresh but slow
+- Cache component eliminates these trade off by 
+-prerendering routes into static html shell (immediately sent to browser)
+-with dynamic content updating the UI as soon as it becomes ready
