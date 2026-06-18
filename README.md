@@ -395,3 +395,64 @@ export const config = {
 - Cache component eliminates these trade off by 
 -prerendering routes into static html shell (immediately sent to browser)
 -with dynamic content updating the UI as soon as it becomes ready
+
+## Before next16 we had partial prerendering
+
+- cache component are build on top of Partial Prerendering
+- here a section ui used to prerender (static UI)
+- dynamic UI used to render later on and used to get updated 
+- Partial prerendering (PPR) is a rendering strategy that allows you to combine static and dynamic route improving initial page perfformance while still supporting personalized, dynamic data.
+- this Partial Prerendering is default behaviour of Cache components thus we can refer to it as prerendering
+
+- at built time nextjs renders your route's component tree as long as components dont access nw resources, certain system APIs or require an incoming request to render, their output is automatically added to the static shell
+- bcoz this happens ahead of time before a request arrives we call it prerendering
+- if component uses nw request or APIs then we can handle them by
+-wrapping component in reacts suspense         (making dynamic section completely dynamic waiting for response every time server call is made)
+-cache the result using the use cache directive to include it in static shell     (caching the result and revalidating after certain interval)
+
+## diff bw cache component and PPR
+
+- PPR either lets choose bw which component which we static and which will be dynamic in a page
+- cache compo lets us do above but gives us option to create component static and revalidate then time to time instead of making them dynamic
+
+## how to use Cache Component
+
+- next.config => cacheComponents: true, in nextconfig object
+- in a component where we are fetching data we should use suspense boundary like LoadBlogList in blog => page.tsx or useCache hook
+- wrapping in suspense tells Next that it is dynamic section
+- every component where we are calling api or fetching data we need to use connection()
+- connection() allows you to indicate rendering should wait for an incoming request before continuing
+-It is usefull when a component does not use Dynamic APIs but you want it to be dynamically rendered at runtime 
+-Dynamic APIs are as follows
+cookies()
+headers()
+draftMode()
+searchParams
+params (in Next.js 15 async request APIs)
+- now we have converted our component to cache component successfully
+
+- run pnpm run build and u will see
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /abc
+├ ○ /abc/hello
+├ ƒ /api/auth/[...all]
+├ ƒ /api/create-blog
+├ ○ /auth/login
+├ ○ /auth/sign-up
+├ ◐ /blog
+├ ◐ /blog/[postId]
+│ └ /blog/[postId]
+└ ○ /create
+
+ƒ Proxy (Middleware)
+
+○  (Static)             prerendered as static content
+◐  (Partial Prerender)  prerendered as static HTML with dynamic server-streamed content
+ƒ  (Dynamic)            server-rendered on demand
+
+# use cache directive
+
+- It is used to cache the return value of any async function, API, server call 
+- It can be be applied at function, component and file level

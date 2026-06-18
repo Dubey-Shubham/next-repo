@@ -9,11 +9,12 @@ import { useQuery } from "convex/react"
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { connection } from "next/server"
 import { Suspense } from "react"
 
-export const dynamic = "force-static"
+// export const dynamic = "force-static"
 // "auto" | "force-dynamic" | "error" | "force-static"
-export const revalidate = 30
+// export const revalidate = 30
 // false | 0 | number
 
 export const metadata: Metadata = {
@@ -40,7 +41,7 @@ export default function BlogPage() {
                 </p>
             </div>
 
-            <Suspense fallback={
+            <Suspense fallback={                           //tells next this is dynamic
                 <SkeletonLoading />
             }>
                 <LoadBlogList />
@@ -51,7 +52,7 @@ export default function BlogPage() {
 }
 
 async function LoadBlogList() {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await connection()                              // if we are not using run time api (refer readme) then for cache component connection is required before API calling
     const data = await fetchQuery(api.posts.getPosts)          // this fetches data in server side thus page is already loaded with data
 
     console.log("data", data)
