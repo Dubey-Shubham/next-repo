@@ -449,10 +449,31 @@ Route (app)
 ƒ Proxy (Middleware)
 
 ○  (Static)             prerendered as static content
-◐  (Partial Prerender)  prerendered as static HTML with dynamic server-streamed content
+◐  (Partial Prerender)  prerendered as static HTML with dynamic server-streamed content    
 ƒ  (Dynamic)            server-rendered on demand
 
 # use cache directive
 
 - It is used to cache the return value of any async function, API, server call 
 - It can be be applied at function, component and file level
+- cached content can be revalidated in two ways
+-automatically based on cache lifetime     (like automatically in 10 minutes or 12 mins)
+-or demand using revalidate tag or updatetag
+
+## automatic revalidation based on time(lifetime)
+
+- remove await connection() or any other thing used and add "use chache" above the dynamic comp calling API
+- now after every 15 min data will revalidate until that it will be static
+- to implement above the api calls put 
+-"use cache"                                            to tell that it will be time based revalidation
+-cacheLife("hours") or cacheLife({revalidate: 7200})    setting time for revalidation
+- we can also use secounds, hourds, minutes, days, weeks, max == 1sec/min/hrs/day/week/year
+
+## revalidating after mutation or server actions
+
+- Tag cached data with cacheTag and revalidate it after mutations using update Tag     (works only on client side)
+- revalidation tag when delays in updates are acceptable                               (works everywhere)
+- above API put
+-cacheTag("blog") no need to remove "use cache" or cacheLife("hours")
+-then in mutation api at the end put updateTag("blog") to revalidate after adding new data
+- now we can revalidate our cache component data

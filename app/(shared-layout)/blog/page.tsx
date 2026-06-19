@@ -7,6 +7,7 @@ import { api } from "@/convex/_generated/api"
 import { fetchQuery } from "convex/nextjs"
 import { useQuery } from "convex/react"
 import { Metadata } from "next"
+import { cacheLife, cacheTag } from "next/cache"
 import Image from "next/image"
 import Link from "next/link"
 import { connection } from "next/server"
@@ -52,8 +53,12 @@ export default function BlogPage() {
 }
 
 async function LoadBlogList() {
-    await connection()                              // if we are not using run time api (refer readme) then for cache component connection is required before API calling
-    const data = await fetchQuery(api.posts.getPosts)          // this fetches data in server side thus page is already loaded with data
+    //await connection()                              // if we are not using run time apis like getcookies (refer readme) then for cache component connection is required before API calling
+    "use cache"
+    cacheLife("hours")                              // cache component will revalidate everyhour
+    //cacheLife({revalidate: 7200})                     // 2hrs revalidation
+    cacheTag("blog")
+    const data = await fetchQuery(api.posts.getPosts)          // this fetches data from server side thus page is already loaded with data
 
     console.log("data", data)
     return (

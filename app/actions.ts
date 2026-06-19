@@ -6,7 +6,7 @@ import { fetchMutation } from "convex/nextjs"
 import { api } from "@/convex/_generated/api"
 import { redirect } from "next/navigation"
 import { getToken } from "@/lib/auth-server"
-import { revalidatePath } from "next/cache"
+import { revalidatePath, updateTag } from "next/cache"
 import { revalidateTag } from "next/cache"
 
 export default async function createBlogAction(values: z.infer<typeof postSchema>) {
@@ -63,7 +63,8 @@ export default async function createBlogAction(values: z.infer<typeof postSchema
         }
     }
 
-    revalidatePath("/blog")
+    // revalidatePath("/blog")                         // to revalidate a static page after creating blog
+    updateTag("blog")                                  // revalidate cache component after creating blog
     return redirect("/blog")                           // this is used to redirect user on servers
 }
 
